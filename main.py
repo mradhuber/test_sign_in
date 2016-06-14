@@ -95,7 +95,7 @@ class MainHandler(webapp2.RequestHandler):
 			email_err = "Please enter a valid email."
 
 		if (c_uname and c_email and c_verify and c_pword):
-			self.redirect('/welcome')
+			self.redirect('/welcome?username=' + username_in)
 		else:
 			self.write_form(username_in, email_in, uname_err, 
 				pword_err, verify_err, email_err)
@@ -108,6 +108,7 @@ class MainHandler(webapp2.RequestHandler):
 
 class WelcomeHandler(webapp2.RequestHandler):
 	def get(self):
-		self.response.out.write('Welcome!')
+		username = self.request.get('username')
+		self.response.out.write('Welcome, ' + username + '!')
 
 app = webapp2.WSGIApplication([('/', MainHandler), ('/welcome', WelcomeHandler)], debug=True)
